@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>自定义幸运转盘</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{display:flex;flex-direction:column;align-items:center;background:#f8f8f8;padding:30px 10px}
+        .wrap{width:320px;height:320px;position:relative;margin:20px auto}
+        #wheel{width:100%;height:100%;border-radius:50%;transition:all 4.5s cubic-bezier(0.2,0,0.2,1)}
+        .center{width:70px;height:70px;background:#f43f3b;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold}
+        .pointer{width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:22px solid #222;position:absolute;left:50%;top:-10px;transform:translateX(-50%);z-index:10}
+        #res{font-size:20px;margin-top:20px;color:#d63031;font-weight:bold}
+        .edit{margin-bottom:15px;text-align:center}
+        textarea{width:320px;height:90px;padding:8px;font-size:14px;border:1px solid #ccc;border-radius:6px}
+        button{margin-top:8px;padding:7px 16px;border:none;background:#2563eb;color:#fff;border-radius:5px;cursor:pointer;font-size:15px}
+    </style>
+</head>
+<body>
+<div class="edit">
+    <p>填写选项（换行分隔）：</p >
+    <textarea id="list">火锅
+烧烤
+奶茶
+看电影
+宅家
+逛超市</textarea>
+    <br>
+    <button onclick="createWheel()">生成转盘</button>
+</div>
+<div class="wrap">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="320" height="320"></canvas>
+    <div class="center" onclick="startRotate()">点击抽奖</div>
+</div>
+<div id="res"></div>
+
+<script>
+    let items=[],r=0,isRun=false,ctx=document.getElementById('wheel').getContext('2d');
+    const color=['#ff6b6b','#4ecdc4','#ffe66d','#1a535c','#ff9f1c','#c44569','#6a0572','#3490de'];
+    //生成转盘
+    function createWheel(){
+        let val=document.getElementById('list').value.trim();
+        items=val.split('\n').filter(i=>i);
+        draw();
+        document.getElementById('res').innerText='';
+    }
+    //绘制圆盘
+    function draw(){
+        let n=items.length,deg=360/n;
+        ctx.clearRect(0,0,320,320);
+        ctx.save();
+        ctx.translate(160,160);
+        ctx.rotate(r*Math.PI/180);
+        for(let i=0;i<n;i++){
+            ctx.beginPath();
+            ctx.moveTo(0,0);
+            ctx.fillStyle=color[i%color.length];
+            ctx.arc(0,0,159,i*deg*Math.PI/180,(i+1)*deg*Math.PI/180);
+            ctx.closePath();ctx.fill();
+            //文字
+            ctx.save();
+            ctx.rotate((i+deg/2)*Math.PI/180);
+            ctx.fillStyle='#fff';
+            ctx.font="bold 14px sans-serif";
+            ctx.fillText(items[i],85,6);
+            ctx.restore();
+        }
+        ctx.restore();
+    }
+    //旋转抽奖
+    function startRotate(){
+        if(isRun||items.length<2)return;
+        isRun=true;
+        document.getElementById('res').innerText='';
+        let add=1800+Math.random()*1500;
+        let end=r+add;
+        let t=setInterval(()=>{
+            r+=3;draw();
+            if(r>=end){
+                clearInterval(t);
+                isRun=false;
+                let n=items.length,per=360/n;
+                let pos=(360-(r%360))%360;
+                let idx=Math.floor(pos/per);
+                document.getElementById('res').innerText='选中：'+items[idx];
+            }
+        },16)
+    }
+    createWheel();
+</script>
+</body>
+</html>
