@@ -63,8 +63,10 @@
             ctx.save();
             ctx.rotate((i+deg/2)*Math.PI/180);
             ctx.fillStyle='#fff';
-            ctx.font="bold 14px sans-serif";
-            ctx.fillText(items[i],85,6);
+            ctx.font="bold 16px sans-serif";
+            ctx.textAlign="right";
+            ctx.textBaseline="middle";
+            ctx.fillText(items[i],120,0);
             ctx.restore();
         }
         ctx.restore();
