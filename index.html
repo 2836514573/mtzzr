@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>梦幻幸运转盘 - 自定义抽奖神器</title>
+    <title>梦幻幸运转盘 · 弹框编辑版</title>
     <style>
         * {
             margin: 0;
@@ -23,85 +23,19 @@
             font-family: 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif;
         }
 
-        /* 主容器卡片感 */
+        /* 主卡片 */
         .card {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(2px);
             border-radius: 48px;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.05);
             padding: 20px 20px 30px;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             transition: all 0.2s ease;
         }
 
-        .edit {
-            margin-bottom: 20px;
-            background: #ffffffcc;
-            border-radius: 32px;
-            padding: 12px 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-
-        .edit p {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .edit p:before {
-            content: "✏️";
-            font-size: 1rem;
-        }
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px 14px;
-            font-size: 14px;
-            border: 2px solid #ddd;
-            border-radius: 28px;
-            background: white;
-            resize: vertical;
-            font-family: inherit;
-            transition: 0.2s;
-            outline: none;
-            font-weight: 500;
-            color: #0f172a;
-            line-height: 1.4;
-        }
-
-        textarea:focus {
-            border-color: #f97316;
-            box-shadow: 0 0 0 3px rgba(249,115,22,0.2);
-        }
-
-        button {
-            margin-top: 12px;
-            padding: 10px 24px;
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            border: none;
-            color: white;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: auto;
-            min-width: 120px;
-        }
-
-        button:active {
-            transform: scale(0.96);
-            background: linear-gradient(135deg, #ea580c, #c2410c);
-        }
-
+        /* 转盘容器 */
         .wheel-wrapper {
             position: relative;
             width: 280px;
@@ -109,7 +43,6 @@
             margin: 15px auto 5px;
         }
 
-        /* 转盘容器 */
         .wrap {
             position: relative;
             width: 100%;
@@ -121,11 +54,11 @@
             width: 100% !important;
             height: 100% !important;
             border-radius: 50%;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.3), 0 0 0 6px #fef9c3, 0 0 0 12px #ffedd5;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), 0 0 0 6px #fef9c3, 0 0 0 12px #ffedd5;
             transition: box-shadow 0.2s;
         }
 
-        /* 固定指针 (华丽三角+圆点) */
+        /* 固定华丽指针 */
         .pointer {
             position: absolute;
             top: -18px;
@@ -136,7 +69,7 @@
             border-left: 18px solid transparent;
             border-right: 18px solid transparent;
             border-bottom: 34px solid #1e293b;
-            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
             z-index: 12;
         }
 
@@ -150,7 +83,7 @@
             text-shadow: 0 0 2px gold;
         }
 
-        /* 中心按钮 */
+        /* 中心抽奖按钮 */
         .center {
             width: 70px;
             height: 70px;
@@ -168,7 +101,7 @@
             font-weight: 800;
             font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 8px 18px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.6);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.6);
             transition: 0.08s linear;
             font-family: inherit;
             letter-spacing: 2px;
@@ -178,7 +111,6 @@
 
         .center:active {
             transform: translate(-50%, -50%) scale(0.94);
-            background: radial-gradient(circle, #ff9800, #e65c00);
         }
 
         #res {
@@ -187,19 +119,191 @@
             border-radius: 60px;
             padding: 12px 20px;
             text-align: center;
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #c2410c;
-            box-shadow: inset 0 1px 4px #0001, 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: inset 0 1px 4px #0001, 0 4px 12px rgba(0, 0, 0, 0.05);
             border-left: 6px solid #f97316;
             word-break: break-word;
         }
 
+        /* 编辑按钮 */
+        .edit-btn-area {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #2c3e66, #1e2a4a);
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-edit:active {
+            transform: scale(0.96);
+        }
+
+        /* ----- 模态框样式 ----- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-container {
+            background: #fffef7;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 48px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transform: scale(0.92);
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: #ffedd5;
+            padding: 18px 22px;
+            border-bottom: 2px solid #fbbf24;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #92400e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b45309;
+            transition: 0.1s;
+            line-height: 1;
+            padding: 0 6px;
+        }
+
+        .close-modal:active {
+            transform: scale(0.9);
+        }
+
+        .modal-body {
+            padding: 22px 20px 28px;
+        }
+
+        .modal-body p {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3e50;
+            font-size: 0.9rem;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            height: 180px;
+            padding: 12px 14px;
+            font-size: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 28px;
+            background: white;
+            resize: vertical;
+            font-family: inherit;
+            transition: 0.2s;
+            outline: none;
+            font-weight: 500;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+
+        .modal-textarea:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-cancel {
+            background: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #334155;
+            transition: 0.2s;
+        }
+
+        .btn-generate:active, .btn-cancel:active {
+            transform: scale(0.95);
+        }
+
         .toast-tip {
             font-size: 0.75rem;
-            margin-top: 12px;
+            margin-top: 16px;
             color: #475569;
             text-align: center;
+        }
+
+        footer {
+            font-size: 12px;
+            margin-top: 18px;
+            color: #5b6e8c;
         }
 
         @media (min-width: 480px) {
@@ -207,45 +311,25 @@
                 width: 320px;
                 height: 320px;
             }
+
             .center {
                 width: 80px;
                 height: 80px;
                 font-size: 18px;
             }
+
             .pointer {
                 border-left: 22px solid transparent;
                 border-right: 22px solid transparent;
                 border-bottom: 38px solid #1e293b;
                 top: -20px;
             }
-            textarea {
-                font-size: 15px;
-            }
-        }
-
-        footer {
-            font-size: 12px;
-            margin-top: 16px;
-            color: #5b6e8c;
         }
     </style>
 </head>
 <body>
 <div class="card">
-    <div class="edit">
-        <p>🎲 自定义奖项 (一行一个)</p>
-        <textarea id="list">火锅派对
-🍕 疯狂披萨
-🧋 奶茶自由
-🎬 电影之夜
-🏠 宅家游戏
-🛒 超市大采购
-🎁 神秘盲盒</textarea>
-        <div style="display: flex; justify-content: center; gap: 12px;">
-            <button onclick="createWheel()">🌀 生成转盘</button>
-        </div>
-    </div>
-
+    <!-- 转盘展示区 -->
     <div class="wheel-wrapper">
         <div class="wrap">
             <div class="pointer"></div>
@@ -254,76 +338,91 @@
         </div>
     </div>
     <div id="res">✨ 点击中间转盘，好运开启 ✨</div>
-    <div class="toast-tip">⭐ 指针固定，转盘旋转 ⭐ 可自由编辑选项</div>
+
+    <!-- 独立的编辑按钮 (触发弹框) -->
+    <div class="edit-btn-area">
+        <button class="btn-edit" id="openModalBtn">✏️ 编辑转盘选项</button>
+    </div>
+    <div class="toast-tip">⭐ 指针固定 · 完全随机抽奖 ⭐ 点「编辑」自定义奖品</div>
 </div>
-<footer>⚡ 公平随机算法 | 点“生成转盘”立即更新</footer>
+<footer>⚡ 弹框配置转盘 | 生成后自动刷新</footer>
+
+<!-- 模态框结构 (配置转盘) -->
+<div id="wheelModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>🎨 自定义奖项</h3>
+            <button class="close-modal" id="closeModalBtn">✕</button>
+        </div>
+        <div class="modal-body">
+            <p>📝 填写选项（换行分隔，每项一个）</p>
+            <textarea id="modalItemList" class="modal-textarea" placeholder="例如：&#10;火锅&#10;烧烤&#10;奶茶&#10;看电影&#10;宅家&#10;逛超市"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-cancel" id="cancelModalBtn">取消</button>
+                <button class="btn-generate" id="generateFromModalBtn">✨ 生成转盘</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     (function() {
         // ---------- DOM 元素 ----------
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
-        const listTextarea = document.getElementById('list');
         const resDiv = document.getElementById('res');
+        const spinBtn = document.getElementById('spinBtn');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const modalOverlay = document.getElementById('wheelModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const generateModalBtn = document.getElementById('generateFromModalBtn');
+        const modalTextarea = document.getElementById('modalItemList');
 
         // ---------- 全局变量 ----------
-        let items = [];            // 存储奖品列表
-        let currentRotation = 0;  // 当前转盘累计旋转角度 (deg)
-        let isSpinning = false;    // 是否正在抽奖动画中
-        let animFrameId = null;    // 动画句柄 (用于raf)
-        let targetRotation = 0;    // 最终目标旋转角度
+        let items = [];                // 奖品列表
+        let currentRotation = 0;      // 转盘累计旋转角度 (deg)
+        let isSpinning = false;        // 是否抽奖动画中
+        let animFrameId = null;
+        let targetRotation = 0;
         let spinStartTime = 0;
-        let spinDuration = 1800;    // 动画持续时间(ms)
+        let spinDuration = 1800;        // 动画时长 ms
         let startRotation = 0;
-        
-        // 优雅配色池 (扩充多色彩, 鲜艳但高级)
+
+        // 华丽配色池 (高饱和差异化)
         const colorPalette = [
             '#F94144', '#F9844A', '#F9C74F', '#90BE6D', '#43AA8B', '#4D908E', '#577590', '#9B5DE5',
             '#F15BB5', '#FEE440', '#00BBF9', '#00F5D4', '#E36414', '#9C89B8', '#EF476F', '#FFB703',
-            '#2B9348', '#0077B6', '#E63946', '#A8DADC', '#6D597A', '#B56576', '#E56B6F'
+            '#2B9348', '#0077B6', '#E63946', '#A8DADC', '#6D597A', '#B56576', '#E56B6F', '#06D6A0',
+            '#118AB2', '#FCF6BD'
         ];
-        
-        // 固定指针方向: 12点钟方向 => 相对于圆心角度 -90° (即 270°)
-        const POINTER_ANGLE_DEG = 270;  
-        
-        // ---------- 辅助函数: 获取当前画布尺寸 (保持高清) ----------
+        const POINTER_ANGLE_DEG = 270;   // 指针指向正上方12点钟
+
+        // ---------- 辅助: canvas尺寸自适应 ----------
         function resizeCanvas() {
             const container = canvas.parentElement;
             const size = container.clientWidth;
             canvas.width = size;
             canvas.height = size;
-            drawWheel(); // 尺寸变化重绘
+            drawWheel();
         }
-        
-        // ---------- 智能文本渲染 (防倒置 + 自适应长度) ----------
+
+        // 文本绘制 (防倒置 + 超长省略)
         function drawSectorText(text, radius, midAngleDeg) {
-            // 处理过长的文本: 最多显示6个中文字符 / 英文8个，超出加...
             let displayText = text;
             const maxLen = 8;
             if ([...text].length > maxLen) {
-                displayText = [...text].slice(0, maxLen-1).join('') + '…';
+                displayText = [...text].slice(0, maxLen - 1).join('') + '…';
             }
-            
             ctx.save();
-            // 移动到半径的一半 (约半径的 0.6 倍位置，让文字位于扇区中部靠外)
             const textRadius = radius * 0.68;
-            // 将角度转为弧度
             const rad = midAngleDeg * Math.PI / 180;
             const x = Math.cos(rad) * textRadius;
             const y = Math.sin(rad) * textRadius;
-            
-            // 文字朝外且避免倒置：如果文字所在的径向方向朝下或者偏左偏右，需要旋转180度让文字正向
-            let textAngle = rad;
-            // 使文字沿圆弧切线方向? 更优雅是沿径向向外且正向: 一般让文字径向放射，但为了可读，让文字基线指向外
-            // 标准做法：让文字方向沿半径向外，但为了让文字不颠倒，判断角度范围做一次翻转
-            // 当前角度对应法向方向角度，但为了更好地阅读，让文字沿径向延伸但字头朝外:
-            // 我们直接使文字基线沿圆周切线更好读? 不过原有风格保持简洁可读: 直接旋转至径向方向再旋转半圈修正
-            // 简单: 设定旋转使文字沿圆弧方向 + 径向偏移 -> 不使用复杂偏移，保证任何位置文本正常向上(不头朝下)
             ctx.translate(x, y);
-            // 确定文字本身需要旋转的角度（让文字沿圆弧外法向，保持从圆心向外辐射样式）
             let rotateAngle = rad;
-            // 如果角度在左边或者下方，要纠正文字朝向（避免文字颠倒）
-            if (rad > Math.PI/2 && rad < 3*Math.PI/2) {
+            // 避免文字颠倒: 如果角度范围在左侧或下方区域，翻转180度
+            if (rad > Math.PI / 2 && rad < 3 * Math.PI / 2) {
                 rotateAngle = rad + Math.PI;
             }
             ctx.rotate(rotateAngle);
@@ -332,24 +431,22 @@
             ctx.font = `bold ${Math.max(12, Math.min(18, Math.floor(radius / 12)))}px "Segoe UI", "PingFang SC", system-ui`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            // 轻微阴影提升可读
             ctx.shadowColor = "rgba(0,0,0,0.5)";
             ctx.shadowBlur = 2;
             ctx.fillText(displayText, 0, 0);
             ctx.shadowBlur = 0;
             ctx.restore();
         }
-        
-        // ---------- 绘制转盘 (基于items, currentRotation) ----------
+
+        // 绘制转盘 (核心)
         function drawWheel() {
             if (!ctx) return;
             const size = canvas.width;
             const centerX = size / 2;
             const centerY = size / 2;
-            const radius = size * 0.46;  // 留出边缘空间
-            
+            const radius = size * 0.46;
+
             if (!items || items.length === 0) {
-                // 无选项时显示占位提示
                 ctx.clearRect(0, 0, size, size);
                 ctx.save();
                 ctx.translate(centerX, centerY);
@@ -361,35 +458,31 @@
                 ctx.font = 'bold 14px system-ui';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('请填写选项', 0, 0);
-                ctx.fillText('并点击生成', 0, 22);
+                ctx.fillText('暂无选项', 0, 0);
+                ctx.fillText('点击「编辑转盘」', 0, 22);
                 ctx.restore();
                 return;
             }
-            
+
             const count = items.length;
             const angleStep = 360 / count;
-            // 清空
             ctx.clearRect(0, 0, size, size);
             ctx.save();
             ctx.translate(centerX, centerY);
-            // 应用当前旋转角度 (顺时针旋转)
             ctx.rotate(currentRotation * Math.PI / 180);
-            
+
             for (let i = 0; i < count; i++) {
                 const startDeg = i * angleStep;
                 const endDeg = (i + 1) * angleStep;
                 const startRad = startDeg * Math.PI / 180;
                 const endRad = endDeg * Math.PI / 180;
-                
-                // 绘制扇形
+
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius, startRad, endRad);
                 ctx.closePath();
                 ctx.fillStyle = colorPalette[i % colorPalette.length];
                 ctx.fill();
-                // 描边分割线
                 ctx.strokeStyle = '#fff';
                 ctx.lineWidth = 2.5;
                 ctx.beginPath();
@@ -397,21 +490,12 @@
                 ctx.arc(0, 0, radius, startRad, endRad);
                 ctx.lineTo(0, 0);
                 ctx.stroke();
-                
-                // 绘制文本: 扇形中间角度
+
                 const midDeg = startDeg + angleStep / 2;
-                const midRad = midDeg * Math.PI / 180;
-                // 小装饰: 白色内圈高光
-                ctx.beginPath();
-                ctx.arc(0, 0, radius * 0.12, 0, 2 * Math.PI);
-                ctx.fillStyle = '#FFF9E8';
-                ctx.fill();
-                
-                // 调用智能文本绘制 (传入半径、中间角度)
                 drawSectorText(items[i], radius, midDeg);
             }
-            
-            // 绘制中心小圆装饰 (置于最上)
+
+            // 中心小圆装饰
             ctx.beginPath();
             ctx.arc(0, 0, radius * 0.16, 0, 2 * Math.PI);
             ctx.fillStyle = '#FFD966';
@@ -423,8 +507,8 @@
             ctx.fill();
             ctx.shadowBlur = 0;
             ctx.restore();
-            
-            // 外圈装饰小点 (极简)
+
+            // 外圈细边装饰
             ctx.save();
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius + 4, 0, 2 * Math.PI);
@@ -433,80 +517,57 @@
             ctx.stroke();
             ctx.restore();
         }
-        
-        // ---------- 核心: 根据当前旋转角度 + 固定指针方向 精确计算中奖项目 ----------
+
+        // 根据当前旋转角度和指针位置计算中奖索引
         function getCurrentPrizeIndex() {
             if (!items.length) return -1;
             const count = items.length;
             const angleStep = 360 / count;
-            // 指针固定物理方向 (270°, 指向正上方)
             const fixedPointer = POINTER_ANGLE_DEG;
-            // 转盘由于旋转了 currentRotation 度 (顺时针为正)
-            // 在转盘自身的局部坐标系中，每个扇区原始边界 [start, end)
-            // 经过旋转后，原来扇区边界在全局坐标系中的位置 = (原始边界 + currentRotation) % 360
-            // 我们需要找到指针方向 fixedPointer 落在旋转后的哪一个扇区内。
-            // 为了避免浮点误差，遍历区间
-            
             for (let i = 0; i < count; i++) {
                 let startLocal = i * angleStep;
                 let endLocal = (i + 1) * angleStep;
-                // 转盘旋转后全局边界
                 let globalStart = (startLocal + currentRotation) % 360;
                 let globalEnd = (endLocal + currentRotation) % 360;
-                // 处理跨0度区间问题
                 if (globalStart < globalEnd) {
-                    // 正常区间
-                    if (fixedPointer >= globalStart && fixedPointer < globalEnd) {
-                        return i;
-                    }
+                    if (fixedPointer >= globalStart && fixedPointer < globalEnd) return i;
                 } else {
-                    // 跨360度区间: 例如 [350, 20)
-                    if (fixedPointer >= globalStart || fixedPointer < globalEnd) {
-                        return i;
-                    }
+                    if (fixedPointer >= globalStart || fixedPointer < globalEnd) return i;
                 }
             }
-            // 极端情况 (边界容错) 返回最后一个
             return 0;
         }
-        
-        // ---------- 平滑动画 (requestAnimationFrame) ----------
+
+        // 平滑动画
         function animateSpin(now) {
             const elapsed = now - spinStartTime;
             let t = Math.min(1, elapsed / spinDuration);
-            // 使用缓动 cubic bezier (先快后慢)
             const easeOutCubic = 1 - Math.pow(1 - t, 3);
             const currentAngle = startRotation + (targetRotation - startRotation) * easeOutCubic;
             currentRotation = currentAngle % 360;
             drawWheel();
-            
+
             if (t < 1) {
                 animFrameId = requestAnimationFrame(animateSpin);
             } else {
-                // 动画最终完成: 精确对齐最终角度
                 currentRotation = targetRotation % 360;
                 drawWheel();
-                // 计算最终奖项
                 const finalIdx = getCurrentPrizeIndex();
                 if (finalIdx !== -1 && items[finalIdx]) {
                     resDiv.innerHTML = `🎉 恭喜中奖： ${items[finalIdx]} 🎉`;
-                    // 添加小小烟花感样式
                     resDiv.style.transform = 'scale(1.02)';
                     setTimeout(() => { resDiv.style.transform = ''; }, 300);
                 } else if (items.length === 0) {
-                    resDiv.innerHTML = '⚠️ 请先添加选项并生成转盘 ⚠️';
+                    resDiv.innerHTML = '⚠️ 请先通过「编辑转盘」添加奖品 ⚠️';
                 } else {
                     resDiv.innerHTML = '🎲 转盘休息一下，再试一次~';
                 }
                 isSpinning = false;
                 animFrameId = null;
-                // 启用中心按钮视觉反馈
-                const spinBtn = document.getElementById('spinBtn');
-                if(spinBtn) spinBtn.style.opacity = '1';
+                if (spinBtn) spinBtn.style.opacity = '1';
             }
         }
-        
-        // 停止当前动画(如果有)
+
         function stopAnimation() {
             if (animFrameId) {
                 cancelAnimationFrame(animFrameId);
@@ -514,16 +575,14 @@
             }
             isSpinning = false;
         }
-        
-        // ---------- 开始抽奖 (核心随机逻辑) ----------
+
+        // 抽奖启动
         function startRotate() {
-            // 有效性校验
             if (!items.length) {
-                resDiv.innerHTML = '⚠️ 请填写奖品内容后点击【生成转盘】⚠️';
+                resDiv.innerHTML = '⚠️ 还没有奖品！请点击「编辑转盘选项」添加内容 ⚠️';
                 return;
             }
             if (items.length < 2) {
-                // 只有一个选项直接中奖
                 resDiv.innerHTML = `🎁 只有一个选项，直接获得： ${items[0]} 🎁`;
                 return;
             }
@@ -531,105 +590,117 @@
                 resDiv.innerHTML = '⏳ 转盘转动中，请稍后再试～';
                 return;
             }
-            
-            // 停止之前的动画残留
+
             stopAnimation();
-            
-            // 随机额外圈数: 最少6圈，最多12圈 (2160° ~ 4320°) + 随机偏移保证公平
-            const extraRounds = 8 + Math.floor(Math.random() * 8);  // 8~15圈
+
+            const extraRounds = 8 + Math.floor(Math.random() * 8); // 8~15圈
             const baseExtraDeg = extraRounds * 360;
-            // 随机增量偏移 (0 ~ 360) 让结果不可预测
             const randomOffset = Math.random() * 360;
-            // 计算理论最终旋转角度增量
-            let delta = baseExtraDeg + randomOffset;
-            // 计算当前转盘视觉角度 (模360)
-            const startMod = currentRotation % 360;
-            // 最终目标角度 (模360下的值) = 我们希望停止时的最终物理转盘角度，但我们不直接控制奖项，
-            // 而是完全通过随机delta确定最终旋转值，然后根据真实停止位置决定奖项，保证物理随机。
-            // 确保最终角度 = 当前角度 + delta, 奖项完全由随机偏移决定，公正透明。
-            let finalRotationRaw = currentRotation + delta;
-            let finalRotationMod = finalRotationRaw % 360;
-            
-            // 为了不让最终指针刚好切分边界 (让视觉公平)，不需要额外处理，算法自然根据物理位置判定。
-            targetRotation = finalRotationRaw;
+            const delta = baseExtraDeg + randomOffset;
+            targetRotation = currentRotation + delta;
             startRotation = currentRotation;
             spinStartTime = performance.now();
             isSpinning = true;
-            
-            // 清除上次结果显示抽奖中
             resDiv.innerHTML = '🌀 转盘旋转中，好运降临... 🌀';
-            const spinBtn = document.getElementById('spinBtn');
-            if(spinBtn) spinBtn.style.opacity = '0.7';
-            
-            // 启动动画
+            if (spinBtn) spinBtn.style.opacity = '0.7';
             animFrameId = requestAnimationFrame(animateSpin);
         }
-        
-        // ---------- 生成转盘 (重置所有状态，清除动画) ----------
-        function createWheel() {
-            // 停止任何动画
-            stopAnimation();
-            isSpinning = false;
-            
-            // 获取文本内容并解析选项
-            let raw = listTextarea.value;
+
+        // ---------- 弹框内“生成转盘”核心逻辑 (更新items, 重置转盘状态) ----------
+        function generateWheelFromModal() {
+            // 获取文本框内容并解析
+            let raw = modalTextarea.value;
             let lines = raw.split(/\r?\n/);
-            // 过滤空行, 并去除首尾空格
             let newItems = lines.filter(line => line.trim().length > 0).map(l => l.trim());
             if (newItems.length === 0) {
-                // 若没有有效项，设置默认提示
-                newItems = ['添加选项', '点击生成'];
-                listTextarea.value = '火锅\n烧烤\n奶茶\n电影\n游戏\n购物';
+                // 如果用户清空了，给一个默认占位，避免白板
+                newItems = ['火锅', '烧烤', '奶茶', '看电影', '宅家', '逛超市'];
+                modalTextarea.value = newItems.join('\n');
+                alert('未检测到有效选项，已恢复默认奖品~');
             }
-            items = newItems;
-            
-            // 重置旋转角度 (让转盘归零方向清晰)
+            items = [...newItems];
+            // 重置转盘角度 (全新转盘归零)
             currentRotation = 0;
-            // 重绘画布
-            resizeCanvas();    // 同时重绘大小与内容
+            // 如果有动画在跑则强行停止
+            stopAnimation();
+            // 重绘转盘
+            resizeCanvas();   // 确保画布尺寸匹配并重绘
             drawWheel();
-            // 重置结果区域为欢快提示
-            resDiv.innerHTML = '✨ 新转盘已生成！点击中心抽奖 ✨';
-            // 如果中央按钮样式还原
-            const spinBtn = document.getElementById('spinBtn');
-            if(spinBtn) spinBtn.style.opacity = '1';
+            // 更新结果区域为成功提示
+            resDiv.innerHTML = '✨ 转盘已更新！点击中央抽奖 ✨';
+            if (spinBtn) spinBtn.style.opacity = '1';
+            // 关闭弹框
+            closeModal();
         }
-        
-        // ---------- 窗口适配 & 初始化 ----------
-        function init() {
-            // 初始解析默认奖品
-            let defaultText = listTextarea.value;
-            let defaultItems = defaultText.split(/\r?\n/).filter(i => i.trim().length > 0);
-            items = defaultItems.length ? defaultItems : ['火锅', '烧烤', '奶茶', '看电影', '宅家', '逛超市'];
-            // 保证textarea显示一致
-            if(defaultItems.length === 0) {
-                listTextarea.value = items.join('\n');
+
+        // 弹框控制
+        function openModal() {
+            // 预填当前items内容到弹框textarea，方便编辑
+            if (items.length) {
+                modalTextarea.value = items.join('\n');
+            } else {
+                // 默认示例
+                modalTextarea.value = "火锅\n烧烤\n奶茶\n看电影\n宅家\n逛超市";
             }
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // 取消弹框不保存变更
+        function cancelModal() {
+            closeModal();
+        }
+
+        // 初始化默认数据 (第一次默认展示一组奖品)
+        function initDefaultItems() {
+            const defaultList = ['火锅', '烧烤', '奶茶', '看电影', '宅家', '逛超市'];
+            items = [...defaultList];
+            modalTextarea.value = defaultList.join('\n');
+            currentRotation = 0;
+            stopAnimation();
             resizeCanvas();
             drawWheel();
-            
-            // 监听窗口resize重绘保持比例
+            resDiv.innerHTML = '✨ 点击中间转盘，好运开启 ✨';
+        }
+
+        // 监听resize + 初始化
+        function bindEvents() {
             window.addEventListener('resize', () => {
                 resizeCanvas();
                 drawWheel();
             });
-            
-            // 绑定中心按钮事件
-            const centerBtn = document.getElementById('spinBtn');
-            if (centerBtn) {
-                centerBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    startRotate();
-                });
-            }
-            
-            // 全局挂载方法 (便于按钮onclick)
-            window.createWheel = createWheel;
-            window.startRotate = startRotate;
+
+            if (spinBtn) spinBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                startRotate();
+            });
+
+            if (openModalBtn) openModalBtn.addEventListener('click', openModal);
+            if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+            if (cancelModalBtn) cancelModalBtn.addEventListener('click', cancelModal);
+            if (generateModalBtn) generateModalBtn.addEventListener('click', generateWheelFromModal);
+
+            // 点击模态框背景关闭 (点击overlay关闭)
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+            // 防止键盘ESC关闭? 可选高级，简单添加
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
         }
-        
-        // 监听textarea变化但不要自动生成，让用户显式点击生成转盘 (避免意外)
+
         // 启动一切
+        function init() {
+            initDefaultItems();
+            bindEvents();
+        }
+
         init();
     })();
 </script>
